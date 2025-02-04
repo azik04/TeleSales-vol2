@@ -48,7 +48,7 @@ public class CallCenterService : ICallCenterService
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize).ToListAsync();
 
-        var totalCount = await _db.CallCenters.Where(x => !x.isDeleted && x.ExcludedBy == userId).CountAsync();
+        var totalCount = await _db.CallCenters.Where(x => !x.isDeleted && x.ExcludedBy == userId).CountAsync();k
 
         var dataDtos = new List<GetCallCenterDto>();
         foreach (var item in data)
