@@ -1,0 +1,10 @@
+﻿using TeleSales.DataProvider.Entities.BaseModel;
+using TeleSales.DataProvider.Entities.Main;
+
+namespace TeleSales.DataProvider.Entities.List;
+
+public class ApplicationTypes : Base
+{
+    public string Name { get; set; }
+    public virtual ICollection<CallCenters> CallCenters { get; set; }
+}

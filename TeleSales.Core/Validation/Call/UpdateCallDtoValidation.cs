@@ -1,0 +1,22 @@
+﻿using FluentValidation;
+using TeleSales.Core.Dto.Main.Call;
+
+namespace TeleSales.Core.Validation.Call;
+
+public class UpdateCallDtoValidation : AbstractValidator<UpdateCallDto>
+{
+    public UpdateCallDtoValidation()
+    {
+        RuleFor(x => x.LegalName)
+            .NotEmpty().WithMessage("Hüquqi adı tələb olunur.")
+            .Length(1, 100).WithMessage("Hüquqi adı 1-dən 100 simvola qədər olmalıdır.");
+
+
+
+        RuleFor(x => x.PermissionStartDate)
+            .NotEmpty().WithMessage("İcazənin başlanma tarixi tələb olunur.");
+
+     
+    }
+}
+
