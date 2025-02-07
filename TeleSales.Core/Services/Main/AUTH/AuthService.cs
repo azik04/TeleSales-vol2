@@ -5,6 +5,7 @@ using TeleSales.DataProvider.Context;
 using Serilog;
 using TeleSales.Core.Interfaces.Main.Auth;
 using TeleSales.Core.Dto.Main.AUTH;
+using TeleSales.Core.Helpers.JWT;
 
 namespace TeleSales.Core.Services.Main.AUTH
 {

@@ -7,7 +7,7 @@ public class CreateCallCenterDtoValidation : AbstractValidator<CreateCallCenterD
 {
     public CreateCallCenterDtoValidation()
     {
-        RuleFor(x => x.kanalId)
+        RuleFor(x => x.ChannelId)
             .NotEmpty().WithMessage("KanalId is required.")
             .GreaterThan(0).WithMessage("KanalId must be greater than 0.");
 
@@ -19,7 +19,7 @@ public class CreateCallCenterDtoValidation : AbstractValidator<CreateCallCenterD
             .NotEmpty().WithMessage("Last Name is required.")
             .Length(2, 50).WithMessage("Last Name must be between 2 and 50 characters.");
 
-        RuleFor(x => x.Region)
+        RuleFor(x => x.RegionId)
             .IsInEnum().WithMessage("Region must be a valid enum value.");
 
         RuleFor(x => x.Phone)
@@ -29,7 +29,7 @@ public class CreateCallCenterDtoValidation : AbstractValidator<CreateCallCenterD
             .NotEmpty().WithMessage("VOEN is required.")
             .Must(voen => voen.ToString().All(char.IsDigit)).WithMessage("VOEN must be a valid number.");
 
-        RuleFor(x => x.ApplicationType)
+        RuleFor(x => x.ApplicationTypeId)
             .IsInEnum().WithMessage("ApplicationType must be a valid enum value.");
 
         RuleFor(x => x.ShortContent)
@@ -40,10 +40,10 @@ public class CreateCallCenterDtoValidation : AbstractValidator<CreateCallCenterD
             .NotEmpty().WithMessage("Details Content is required.")
             .MaximumLength(2000).WithMessage("Details Content must be less than 2000 characters.");
 
-        RuleFor(x => x.Forwarding)
+        RuleFor(x => x.isForwarding)
             .NotNull().WithMessage("Forwarding must be specified.");
 
-        RuleFor(x => x.Department)
+        RuleFor(x => x.DepartmentId)
             .NotNull().WithMessage("Department must be specified.");
 
 

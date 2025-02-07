@@ -41,7 +41,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Regions> Regions { get; set; }
     public DbSet<ApplicationTypes> ApplicationTypes { get; set; }
     public DbSet<Results> Results { get; set; }
-    public DbSet<Status> Status { get; set; }
+    public DbSet<Statuses> Status { get; set; }
 
 
     public DbSet<CallCenters> CallCenters { get; set; }

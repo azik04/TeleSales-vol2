@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using TeleSales.Core.Dto.Main.Debitor;
 using TeleSales.Core.Validation.Auth;
-using TeleSales.Core.Validation.Call;
 using TeleSales.Core.Validation.CallCenter;
+using TeleSales.Core.Validation.Debitor;
 using TeleSales.Core.Validation.User;
 
 namespace TeleSales.Infrastructure;
@@ -15,11 +16,11 @@ public static class FluentValidationServiceExtention
         services.AddFluentValidationClientsideAdapters();
         services.AddValidatorsFromAssemblyContaining<AuthDtoValidation>();
 
-        services.AddValidatorsFromAssemblyContaining<CreateCallDtoValidation>();
-        services.AddValidatorsFromAssemblyContaining<UpdateCallDtoValidation>();
+        services.AddValidatorsFromAssemblyContaining<CreateDebitorDtoValidation>();
+        services.AddValidatorsFromAssemblyContaining<UpdateDebitorDto>();
 
-        services.AddValidatorsFromAssemblyContaining<UpdateCallDtoValidation>();
-        services.AddValidatorsFromAssemblyContaining<ExcludeCallDtoValidation>();
+        services.AddValidatorsFromAssemblyContaining<UpdateCallCenterDtoValidation>();
+        services.AddValidatorsFromAssemblyContaining<ExcludeDebitorDtoValidation>();
 
         services.AddValidatorsFromAssemblyContaining<CreateUserDtoValidation>();
         services.AddValidatorsFromAssemblyContaining<UpdateUserDtoValidation>();

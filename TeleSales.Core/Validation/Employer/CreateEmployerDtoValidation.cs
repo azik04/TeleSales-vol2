@@ -1,23 +1,23 @@
 ﻿using FluentValidation;
-using TeleSales.Core.Dto.Main.Employer;
+using TeleSales.DataProvider.Entities.Rel;
 
 namespace TeleSales.Core.Validation.Employer;
 
-public class CreateEmployerDtoValidation : AbstractValidator<CreateEmployerDto>
+public class CreateEmployerDtoValidation : AbstractValidator<Employers>
 {
     public CreateEmployerDtoValidation()
     {
         RuleFor(x => x.FullName)
             .NotEmpty().WithMessage("FullName is required.");
 
-        RuleFor(x => x.Departament)
+        RuleFor(x => x.DepartmentId)
             .NotEmpty().WithMessage("Departament is required.");
 
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")
             .Length(2, 50).WithMessage("Last Name must be between 2 and 50 characters.");
 
-        RuleFor(x => x.Administration)
+        RuleFor(x => x.Position)
             .NotEmpty().WithMessage("Administration is required.");
     }
 }

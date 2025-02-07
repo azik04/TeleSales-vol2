@@ -8,4 +8,6 @@ public class Employers : Base
     public string Email { get; set; }
     public long DepartmentId { get; set; }
     public Departments Department { get; set; }
+    public string Position { get; set; }
+
 }

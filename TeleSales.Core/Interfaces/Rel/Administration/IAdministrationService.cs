@@ -5,6 +5,7 @@ namespace TeleSales.Core.Interfaces.Rel.Administration;
 
 public interface IAdministrationService
 {
-    Task<BaseResponse<AdministrationDto>> CreateAsync(AdministrationDto dto);
-    Task<BaseResponse<AdministrationDto>> GetAllAsync();
+    Task<BaseResponse<GetAdministrationDto>> CreateAsync(CreateAdministrationDto dto);
+    Task<BaseResponse<ICollection<GetAdministrationDto>>> GetAllAsync();
+    Task<BaseResponse<GetAdministrationDto>> RemoveAsync(long id);
 }

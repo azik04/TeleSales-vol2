@@ -1,14 +1,29 @@
-﻿using TeleSales.Core.Mapper.Main.CallCenter;
+﻿using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
+using TeleSales.Core.Mapper.Main.CallCenter;
+using TeleSales.Core.Mapper.Main.Debitor;
+using TeleSales.Core.Mapper.Main.User;
 
-namespace TeleSales.Infrastructure;
-
-public static class MapperServiceExtention
+namespace TeleSales.Infrastructure
 {
-    public static void MapperConfiguration(this IServiceCollection services)
+    public static class MapperServiceExtention
     {
-        services.AddAutoMapper(typeof(CreateCallCenterProfile));
-        services.AddAutoMapper(typeof(UpdateCallCenterProfile));
-        services.AddAutoMapper(typeof(GetCallCenterProfile));
+        public static void AddMapperConfiguration(this IServiceCollection services)
+        {
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<CreateCallCenterProfile>();
+                cfg.AddProfile<UpdateCallCenterProfile>();
+                cfg.AddProfile<GetCallCenterProfile>();
 
+                cfg.AddProfile<CreateDebitorProfile>();
+                cfg.AddProfile<GetDebitorProfile>();
+                cfg.AddProfile<UpdateDebitorProfile>();
+
+                cfg.AddProfile<CreateUserProfile>();
+                cfg.AddProfile<GetUserProfile>();
+                cfg.AddProfile<UpdateUserProfile>();
+            });
+        }
     }
 }

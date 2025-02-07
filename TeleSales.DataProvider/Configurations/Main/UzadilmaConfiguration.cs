@@ -23,7 +23,7 @@ public class UzadilmaConfiguration : IEntityTypeConfiguration<Uzadilmas>
             .OnDelete(DeleteBehavior.Restrict);
     
         builder.HasOne(x => x.Department)
-            .WithMany(x => x.Uzadilmas)
+            .WithMany(x => x.Uzadilma)
             .HasForeignKey(x => x.DepartmentId)
             .OnDelete(DeleteBehavior.Restrict);
     }

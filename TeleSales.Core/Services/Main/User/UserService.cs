@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TeleSales.Core.Dto.Main.User;
 using TeleSales.Core.Interfaces.Main.User;
 using TeleSales.Core.Response;
@@ -11,50 +12,30 @@ namespace TeleSales.Core.Services.Main.User;
 public class UserService : IUserService
 {
     private readonly ApplicationDbContext _db;
-    public UserService(ApplicationDbContext db)
+    private readonly IMapper _mapper;
+    public UserService(ApplicationDbContext db, IMapper mapper)
     {
+        _mapper = mapper;
         _db = db;
     }
     public async Task<BaseResponse<GetUserDto>> Create(CreateUserDto dto)
     {
-        var user = new Users()
-        {
-            Email = dto.Email,
-            FullName = dto.FirstName + " " + dto.LastName,
-            Password = dto.Password,
-            CreateAt = DateTime.UtcNow,
-            Role = Role.Operator,
-        };
+        var user = _mapper.Map<Users>(dto);
+       
         await _db.Users.AddAsync(user);
         await _db.SaveChangesAsync();
 
-        var newUser = new GetUserDto()
-        {
-            id = user.id,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            isDeleted = user.isDeleted,
-            Role = user.Role,
-        };
+        var center = _mapper.Map<GetUserDto>(dto);
 
-        return new BaseResponse<GetUserDto>(newUser);
+        return new BaseResponse<GetUserDto>(center);
     }
 
 
     public async Task<BaseResponse<ICollection<GetUserDto>>> GetAll()
     {
-        var users = _db.Users.Where(x => !x.isDeleted && (x.Role == Role.Operator || x.Role == Role.BaşOperator));
+        var users = await _db.Users.Where(x => !x.isDeleted && (x.Role == Role.Operator || x.Role == Role.BaşOperator)).ToListAsync();
 
-        var userDtos = users.Select(user => new GetUserDto
-        {
-            id = user.id,
-            isDeleted = user.isDeleted,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            Role = user.Role,
-        }).ToList();
+        var userDtos = _mapper.Map<List<GetUserDto>>(users);
 
         return new BaseResponse<ICollection<GetUserDto>>(userDtos);
     }
@@ -65,15 +46,7 @@ public class UserService : IUserService
             .Where(x => !x.isDeleted &&
                        x.Role == Role.Operator);
 
-        var userDtos = users.Select(user => new GetUserDto
-        {
-            id = user.id,
-            isDeleted = user.isDeleted,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            Role = user.Role,
-        }).ToList();
+        var userDtos = _mapper.Map<List<GetUserDto>>(users);
 
         return new BaseResponse<ICollection<GetUserDto>>(userDtos);
     }
@@ -85,15 +58,7 @@ public class UserService : IUserService
             .Where(x => !x.isDeleted &&
                        x.Role == Role.Viewer);
 
-        var userDtos = users.Select(user => new GetUserDto
-        {
-            id = user.id,
-            isDeleted = user.isDeleted,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            Role = user.Role,
-        }).ToList();
+        var userDtos = _mapper.Map<List<GetUserDto>>(users);
 
         return new BaseResponse<ICollection<GetUserDto>>(userDtos);
     }
@@ -105,15 +70,7 @@ public class UserService : IUserService
             .Where(x => !x.isDeleted &&
                        x.Role == Role.BaşOperator);
 
-        var userDtos = users.Select(user => new GetUserDto
-        {
-            id = user.id,
-            isDeleted = user.isDeleted,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            Role = user.Role,
-        }).ToList();
+        var userDtos = _mapper.Map<List<GetUserDto>>(users);
 
         return new BaseResponse<ICollection<GetUserDto>>(userDtos);
     }
@@ -123,15 +80,7 @@ public class UserService : IUserService
     {
         var users = _db.Users.Where(x => !x.isDeleted && x.Role == Role.Admin);
 
-        var userDtos = users.Select(user => new GetUserDto
-        {
-            id = user.id,
-            isDeleted = user.isDeleted,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            Role = user.Role,
-        }).ToList();
+        var userDtos = _mapper.Map<List<GetUserDto>>(users);
 
         return new BaseResponse<ICollection<GetUserDto>>(userDtos);
     }
@@ -145,21 +94,11 @@ public class UserService : IUserService
         var user = await _db.Users.SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
 
         if (user == null)
-        {
             return new BaseResponse<GetUserDto>("User not found");
-        }
-
-        var newUser = new GetUserDto()
-        {
-            id = user.id,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            isDeleted = user.isDeleted,
-            Role = user.Role,
-        };
-
-        return new BaseResponse<GetUserDto>(newUser);
+        
+        var userDto = _mapper.Map<GetUserDto>(user);
+        
+        return new BaseResponse<GetUserDto>(userDto);
     }
 
 
@@ -171,27 +110,16 @@ public class UserService : IUserService
         var user = await _db.Users.SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
 
         if (user == null)
-        {
             return new BaseResponse<GetUserDto>("User not found");
-        }
 
-        user.Email = dto.Email;
-        user.FullName = dto.FirstName + " " + dto.LastName;
+        var update = _mapper.Map<Users>(dto);
 
         _db.Users.Update(user);
         await _db.SaveChangesAsync();
 
-        var newUser = new GetUserDto()
-        {
-            id = user.id,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            isDeleted = user.isDeleted,
-            Role = user.Role,
-        };
+        var userDto = _mapper.Map<GetUserDto>(user);
 
-        return new BaseResponse<GetUserDto>(newUser);
+        return new BaseResponse<GetUserDto>(userDto);
     }
 
 
@@ -216,17 +144,9 @@ public class UserService : IUserService
         _db.Users.Update(user);
         await _db.SaveChangesAsync();
 
-        var newUser = new GetUserDto()
-        {
-            id = user.id,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            isDeleted = user.isDeleted,
-            Role = user.Role,
-        };
+        var userDto = _mapper.Map<GetUserDto>(user);
 
-        return new BaseResponse<GetUserDto>(newUser);
+        return new BaseResponse<GetUserDto>(userDto);
     }
 
 
@@ -245,17 +165,9 @@ public class UserService : IUserService
         _db.Users.Update(user);
         await _db.SaveChangesAsync();
 
-        var newUser = new GetUserDto()
-        {
-            id = user.id,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            isDeleted = user.isDeleted,
-            Role = user.Role,
-        };
+        var userDto = _mapper.Map<GetUserDto>(user);
 
-        return new BaseResponse<GetUserDto>(newUser, true, "Role updated successfully.");
+        return new BaseResponse<GetUserDto>(userDto, true, "Role updated successfully.");
     }
 
 
@@ -276,17 +188,9 @@ public class UserService : IUserService
         _db.Users.Update(user);
         await _db.SaveChangesAsync();
 
-        var newUser = new GetUserDto()
-        {
-            id = user.id,
-            CreateAt = user.CreateAt,
-            Email = user.Email,
-            FullName = user.FullName,
-            isDeleted = user.isDeleted,
-            Role = user.Role,
-        };
+        var userDto = _mapper.Map<GetUserDto>(user);
 
-        return new BaseResponse<GetUserDto>(newUser);
+        return new BaseResponse<GetUserDto>(userDto);
     }
 
 }

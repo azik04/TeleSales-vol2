@@ -6,5 +6,6 @@ namespace TeleSales.Core.Interfaces.Rel.Department;
 public interface IDepartmentService
 {
     Task<BaseResponse<GetDepartmentDto>> CreateAsync(CreateUpdateDepartmentDto dto);
-    Task<BaseResponse<GetDepartmentDto>> GetAllAsync();
+    Task<BaseResponse<ICollection<GetDepartmentDto>>> GetAllByAdministration(long  administrationId);
+    Task<BaseResponse<GetDepartmentDto>> RemoveAsync(long id);
 }

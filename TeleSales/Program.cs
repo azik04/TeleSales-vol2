@@ -13,6 +13,9 @@ builder.Services.Cors();
 
 builder.Services.AddValidationService();
 
+builder.Services.AddMapperConfiguration();
+
+
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 
 builder.Services.AddServiceDependencies(builder.Configuration);

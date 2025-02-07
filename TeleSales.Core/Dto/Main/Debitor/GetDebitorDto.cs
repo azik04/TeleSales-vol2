@@ -5,8 +5,8 @@ public class GetDebitorDto
     public long Id { get; set; }
     public long StatusId { get; set; }
     public string StatusName { get; set; }
-    public long? ConclusionId { get; set; }
-    public string? Conclusion { get; set; }
+    public long? ResultId { get; set; }
+    public string? ResultName { get; set; }
     public long ChannelId { get; set; }
 
 
@@ -21,7 +21,7 @@ public class GetDebitorDto
     public string Street { get; set; }
     public string Phone { get; set; }
 
-
+    public bool isExcluding {  get; set; }
     public bool isDone { get; set; }
     public string? Note { get; set; }
     public long? ExcludedBy { get; set; }

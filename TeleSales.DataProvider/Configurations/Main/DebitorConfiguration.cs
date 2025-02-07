@@ -19,7 +19,7 @@ public class DebitorConfiguration : IEntityTypeConfiguration<Debitors>
 
         builder.HasOne(x => x.Сhannel)
             .WithMany(x => x.Debitor)
-            .HasForeignKey(x=> x.СhannelId)
+            .HasForeignKey(x=> x.ChannelId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.Result)

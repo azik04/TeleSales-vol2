@@ -4,6 +4,7 @@ public class GetCallCenterDto
 {
     public long id { get; set; }
     public long ChannelId { get; set; }
+    public string ChannelName { get; set; }
     public DateTime CreateAt { get; set; }
     public bool IsDeleted { get; set; }
     public string FullName { get; set; }

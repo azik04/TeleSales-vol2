@@ -4,9 +4,9 @@ using TeleSales.DataProvider.Entities.List;
 
 namespace TeleSales.DataProvider.Configurations.List;
 
-public class StatusConfiguration : IEntityTypeConfiguration<Status>
+public class StatusConfiguration : IEntityTypeConfiguration<Statuses>
 {
-    public void Configure(EntityTypeBuilder<Status> builder)
+    public void Configure(EntityTypeBuilder<Statuses> builder)
     {
         builder.ToTable("List.CallStatus");
 
