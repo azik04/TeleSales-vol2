@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeleSales.Core.Dto.List.Result;
+using TeleSales.Core.Dto.List.Status;
 using TeleSales.Core.Interfaces.List.Result;
 using TeleSales.Core.Response;
 using TeleSales.DataProvider.Context;
@@ -13,35 +15,63 @@ public class ResultService : IResultService
     {
         _db = db;
     }
-    public async Task<BaseResponse<Results>> CreateAsync(Results model)
+    public async Task<BaseResponse<GetResultDto>> CreateAsync(CreateResultDto dto)
     {
         var data = new Results
         {
-            Name = model.Name,
+            Name = dto.Name,
         };
 
         await _db.Results.AddAsync(data);
         await _db.SaveChangesAsync();
+        
+        var dtos = new GetResultDto
+        {
+            Id = data.id,
+            Name = data.Name,
+            IsDeleted = data.isDeleted,
+            CreateAt = DateTime.Now,
+        };
 
-        return new BaseResponse<Results>(data, true);
+        return new BaseResponse<GetResultDto>(dtos, true);
     }
 
-    public async Task<BaseResponse<ICollection<Results>>> GetAllAsync()
+
+    public async Task<BaseResponse<ICollection<GetResultDto>>> GetAllAsync()
     {
         var data = await _db.Results.Where(x => !x.isDeleted).ToListAsync();
 
-        return new BaseResponse<ICollection<Results>>(data, true);
+        var dataDtos = data.Select(a => new GetResultDto
+        {
+            Id = a.id,
+            Name = a.Name,
+            IsDeleted = a.isDeleted,
+            CreateAt = a.CreateAt,
+        }).ToList();
+
+        return new BaseResponse<ICollection<GetResultDto>>(dataDtos, true);
     }
 
-    public async Task<BaseResponse<Results>> RemoveAsync(long id)
+    public async Task<BaseResponse<GetResultDto>> RemoveAsync(long id)
     {
         var data = await _db.Results.SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
+ 
+        if (data == null)
+            return new BaseResponse<GetResultDto>(null, false);
 
         data.isDeleted = true;
 
         _db.Results.Update(data);
         await _db.SaveChangesAsync();
 
-        return new BaseResponse<Results>(data, true);
+        var dtos = new GetResultDto
+        {
+            Id = data.id,
+            Name = data.Name,
+            IsDeleted = data.isDeleted,
+            CreateAt = data.CreateAt,
+        };
+
+        return new BaseResponse<GetResultDto>(dtos, true);
     }
 }

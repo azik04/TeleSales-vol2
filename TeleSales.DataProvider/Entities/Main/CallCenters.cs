@@ -1,4 +1,5 @@
-﻿using TeleSales.DataProvider.Entities.BaseModel;
+﻿using System.Threading.Channels;
+using TeleSales.DataProvider.Entities.BaseModel;
 using TeleSales.DataProvider.Entities.List;
 using TeleSales.DataProvider.Entities.Rel;
 
@@ -8,19 +9,19 @@ public class CallCenters : Base
 {
     public string FullName { get; set; }
     public string Phone { get; set; }
+    public long ExcludedBy { get; set; }
+    public Users User { get; set; }
     public long VOEN { get; set; }
     public string ShortContent { get; set; }
     public string DetailsContent { get; set; }
-    public string Conclusion { get; set; }
     public bool isForwarding { get; set; }
-    public string? ForwardTo { get; set; }
+    public string Conclusion { get; set; }
     public string? Addition { get; set; }
-    public long ExcludedBy { get; set; }
-    public Users User { get; set; }
 
+    // Fixed Cyrillic issue here
+    public long ChannelId { get; set; }
+    public Channels Channel { get; set; }
 
-    public long СhannelId { get; set; }
-    public Сhannels Сhannel { get; set; }
     public long? AdministrationId { get; set; }
     public Administrations? Administration { get; set; }
     public long? DepartmentId { get; set; }

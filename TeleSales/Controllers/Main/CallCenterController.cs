@@ -7,6 +7,7 @@ namespace TeleSales.Controllers.Main;
 
 [Route("api/[controller]")]
 [ApiController]
+
 public class CallCenterController : ControllerBase
 {
     private readonly ICallCenterService _service;
@@ -19,20 +20,20 @@ public class CallCenterController : ControllerBase
     /// <summary>
     /// Export calls to an Excel file
     /// </summary>
-    /// <param name="kanalId">The channel ID to filter calls</param>
+    /// <param name="channelId">The channel ID to filter calls</param>
     /// <returns>The Excel file containing the exported call data</returns>
     [HttpGet("ExportExcel")]
     [Authorize(Policy = "Viewer")]
-    public async Task<IActionResult> ExportToExcelAsync(long kanalId)
+    public async Task<IActionResult> ExportToExcelAsync(long channelId )
     {
         try
         {
-            var fileBytes = await _service.ExportToExcelAsync(kanalId);
+            var fileBytes = await _service.ExportToExcelAsync(channelId);
 
             if (fileBytes.Data == null || fileBytes.Data.Length == 0)
                 return BadRequest(new { Message = "No data found to export." });
 
-            var fileName = $"Calls_{kanalId}_{DateTime.UtcNow:yyyyMMdd}.xlsx";
+            var fileName = $"Calls_{channelId}_{DateTime.UtcNow:yyyyMMdd}.xlsx";
 
             return File(fileBytes.Data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
@@ -47,14 +48,14 @@ public class CallCenterController : ControllerBase
     /// Create a new call record
     /// </summary>
     /// <param name="dto">The details for the new call</param>
-    /// <param name="kanalId">The channel to which the call belongs</param>
+    /// <param name="channelId">The channel to which the call belongs</param>
     /// <returns>A response with the created call data or an error message</returns>
     [HttpPost]
-    [Authorize(Policy = "BaşOperator")]
+    //[Authorize(Policy = "BaşOperator")]
 
-    public async Task<IActionResult> Create(CreateCallCenterDto dto, long kanalId)
+    public async Task<IActionResult> CreateAsync(CreateCallCenterDto dto, long channelId)
     {
-        var res = await _service.Create(dto);
+        var res = await _service.CreateAsync(dto , channelId);
         if (!res.Success)
             return BadRequest(res.Message);
 
@@ -69,12 +70,12 @@ public class CallCenterController : ControllerBase
     /// <param name="pageNumber">The page number for pagination</param>
     /// <param name="pageSize">The number of records per page</param>
     /// <returns>A paginated list of calls by channel and user</returns>
-    [HttpGet("User/{userId}/Kanal/{kanalId}")]
+    [HttpGet("User/{userId}/Channel/{channelId}")]
     [Authorize(Policy = "Operator")]
 
-    public async Task<IActionResult> GetAllByUser(long userId, long kanalId, int pageNumber, int pageSize)
+    public async Task<IActionResult> GetAllByUserAsync(long userId, long channelId, int pageNumber, int pageSize)
     {
-        var res = await _service.GetAllByUser(userId, kanalId, pageNumber, pageSize);
+        var res = await _service.GetAllByUserAsync(userId, channelId, pageNumber, pageSize);
         if (!res.Success)
             return BadRequest(res.Message);
 
@@ -86,16 +87,16 @@ public class CallCenterController : ControllerBase
     /// <summary>
     /// Get all calls by channel ID and user ID with pagination
     /// </summary>
-    /// <param name="kanalId">The kanal ID</param>
+    /// <param name="channelId">The kanal ID</param>
     /// <param name="pageNumber">The page number for pagination</param>
     /// <param name="pageSize">The number of records per page</param>
     /// <returns>A paginated list of calls by channel and user</returns>
-    [HttpGet("Kanal/{kanalId}")]
+    [HttpGet("Channel/{channelId}")]
     [Authorize(Policy = "Viewer")]
 
-    public async Task<IActionResult> GetAll(long kanalId, int pageNumber, int pageSize)
+    public async Task<IActionResult> GetAllAsync(long channelId, int pageNumber, int pageSize)
     {
-        var res = await _service.GetAll(kanalId, pageNumber, pageSize);
+        var res = await _service.GetAllAsync(channelId, pageNumber, pageSize);
         if (!res.Success)
             return BadRequest(res.Message);
 
@@ -110,9 +111,9 @@ public class CallCenterController : ControllerBase
     [HttpGet("{id}")]
     [Authorize]
 
-    public async Task<IActionResult> GetById(long id)
+    public async Task<IActionResult> GetByIdAsync(long id)
     {
-        var res = await _service.GetById(id);
+        var res = await _service.GetByIdAsync(id);
         if (!res.Success)
             return BadRequest(res.Message);
 

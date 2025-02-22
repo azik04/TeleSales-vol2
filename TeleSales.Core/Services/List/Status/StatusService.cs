@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeleSales.Core.Dto.List.Status;
 using TeleSales.Core.Interfaces.List.Status;
 using TeleSales.Core.Response;
 using TeleSales.DataProvider.Context;
@@ -13,7 +14,7 @@ public class StatusService : IStatusService
     {
         _db = db;
     }
-    public async Task<BaseResponse<Statuses>> CreateAsync(Statuses model)
+    public async Task<BaseResponse<GetStatusDto>> CreateAsync(CreateStatusDto model)
     {
         var data = new Statuses
         {
@@ -23,25 +24,52 @@ public class StatusService : IStatusService
         await _db.Status.AddAsync(data);
         await _db.SaveChangesAsync();
 
-        return new BaseResponse<Statuses>(data, true);
+        var dtos = new GetStatusDto
+        {
+            Id = data.id,
+            Name = data.Name,
+            IsDeleted = data.isDeleted,
+            CreateAt = data.CreateAt
+        };
+
+        return new BaseResponse<GetStatusDto>(dtos, true); 
     }
 
-    public async Task<BaseResponse<ICollection<Statuses>>> GetAllAsync()
+    public async Task<BaseResponse<ICollection<GetStatusDto>>> GetAllAsync()
     {
         var data = await _db.Status.Where(x => !x.isDeleted).ToListAsync();
 
-        return new BaseResponse<ICollection<Statuses>>(data, true);
+        var dataDtos = data.Select(a => new GetStatusDto
+        {
+            Id = a.id,
+            Name = a.Name,
+            IsDeleted = a.isDeleted,
+            CreateAt = a.CreateAt,
+        }).ToList();
+
+        return new BaseResponse<ICollection<GetStatusDto>>(dataDtos, true);
     }
 
-    public async Task<BaseResponse<Statuses>> RemoveAsync(long id)
+    public async Task<BaseResponse<GetStatusDto>> RemoveAsync(long id)
     {
         var data = await _db.Status.SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
 
+        if (data == null)
+            return new BaseResponse<GetStatusDto>(null, false);
+
         data.isDeleted = true;
+
+        var dtos = new GetStatusDto
+        {
+            Id = data.id,
+            Name = data.Name,
+            IsDeleted = data.isDeleted,
+            CreateAt = data.CreateAt,
+        };
 
         _db.Status.Update(data);
         await _db.SaveChangesAsync();
 
-        return new BaseResponse<Statuses>(data, true);
+        return new BaseResponse<GetStatusDto>(dtos, true);
     }
 }

@@ -8,6 +8,7 @@ namespace TeleSales.Areas.Admin.Controllers.Main;
 [Route("api/Admin/[controller]")]
 [ApiController]
 [Area("Admin")]
+
 public class ChannelController : ControllerBase
 {
     private readonly IChannelService _service;

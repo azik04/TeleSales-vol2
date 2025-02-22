@@ -15,7 +15,6 @@ public class CreateDebitorDto
     public string Phone { get; set; }
 
 
-
     public decimal? TotalDebt { get; set; }
     public decimal? Year2018 { get; set; }
     public decimal? Year2019 { get; set; }

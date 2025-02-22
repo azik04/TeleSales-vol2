@@ -7,5 +7,6 @@ public class Results : Base
 {
     public string Name { get; set; }
     public virtual ICollection<Debitors> Debitors { get; set; }
+    public ICollection<SubResults> SubResults { get; set; }
 
 }

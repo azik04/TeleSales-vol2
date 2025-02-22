@@ -6,6 +6,7 @@ namespace TeleSales.Controllers.Main;
 
 [Route("api/[controller]")]
 [ApiController]
+
 public class EmailController : ControllerBase
 {
     private readonly IEmailService _emailService;

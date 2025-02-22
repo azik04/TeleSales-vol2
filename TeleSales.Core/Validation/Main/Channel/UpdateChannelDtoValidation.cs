@@ -1,0 +1,14 @@
+﻿using FluentValidation;
+using TeleSales.Core.Dto.Main.Channel;
+
+namespace TeleSales.Core.Validation.Main.Channel;
+
+public class UpdateChannelDtoValidation : AbstractValidator<UpdateChannelDto>
+{
+    public UpdateChannelDtoValidation()
+    {
+        RuleFor(x => x.Name)
+            .NotEmpty().WithMessage("Kanal adı tələb olunur.")
+            .Length(1, 100).WithMessage("Kanal adı 1-dən 100 simvola qədər olmalıdır.");
+    }
+}

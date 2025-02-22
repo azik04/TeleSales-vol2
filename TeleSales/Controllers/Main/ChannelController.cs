@@ -6,6 +6,7 @@ namespace TeleSales.Controllers.Main;
 
 [Route("api/[controller]")]
 [ApiController]
+
 public class ChannelController : ControllerBase
 {
     private readonly IChannelService _service;

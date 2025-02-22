@@ -17,15 +17,6 @@ public class DepartmentController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync(long administrationId)
-    {
-        var res = await _service.GetAllByAdministration(administrationId);
-        if (res.Success)
-            return Ok(res);
-
-        return BadRequest(res);
-    }
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync(CreateUpdateDepartmentDto dto)

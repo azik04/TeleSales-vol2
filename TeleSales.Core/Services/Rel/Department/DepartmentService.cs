@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeleSales.Core.Dto.Rel.Administration;
 using TeleSales.Core.Dto.Rel.Department;
 using TeleSales.Core.Interfaces.Rel.Department;
 using TeleSales.Core.Response;
@@ -55,6 +56,9 @@ public class DepartmentService : IDepartmentService
     public async Task<BaseResponse<GetDepartmentDto>> RemoveAsync(long id)
     {
         var data = await _db.Departments.SingleOrDefaultAsync(x => x.id == id) ;
+
+        if (data == null)
+            return new BaseResponse<GetDepartmentDto>(null, false);
 
         var dtos = new GetDepartmentDto
         {

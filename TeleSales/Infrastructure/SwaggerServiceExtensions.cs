@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.OpenApi.Models;
 
 namespace TRAK.Infrastructure;
 
@@ -14,7 +15,6 @@ public static class SwaggerServiceExtensions
                 Version = "v1"
             });
 
-            // Определение схемы безопасности для JWT
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
@@ -41,6 +41,22 @@ public static class SwaggerServiceExtensions
                     new List<string>()
                 }
             });
+
         });
+
+        services.AddApiVersioning(options =>
+        {
+            options.ReportApiVersions = true;
+            options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+            options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        });
+
+        services.AddVersionedApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV"; 
+            options.SubstituteApiVersionInUrl = true;
+        });
+
     }
 }

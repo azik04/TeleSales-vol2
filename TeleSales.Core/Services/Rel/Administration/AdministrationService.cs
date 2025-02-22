@@ -3,6 +3,7 @@ using TeleSales.Core.Dto.Rel.Administration;
 using TeleSales.Core.Interfaces.Rel.Administration;
 using TeleSales.Core.Response;
 using TeleSales.DataProvider.Context;
+using TeleSales.DataProvider.Entities.List;
 using TeleSales.DataProvider.Entities.Rel;
 
 namespace TeleSales.Core.Services.Rel.Administration;
@@ -49,6 +50,9 @@ public class AdministrationService : IAdministrationService
     public async Task<BaseResponse<GetAdministrationDto>> RemoveAsync(long id)
     {
         var data = await _db.Administrations.SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
+
+        if (data == null)
+            return new BaseResponse<GetAdministrationDto>(null, false);
 
         data.isDeleted = true;
 

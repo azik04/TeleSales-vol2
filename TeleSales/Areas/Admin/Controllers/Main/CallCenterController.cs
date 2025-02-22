@@ -8,6 +8,7 @@ namespace TeleSales.Areas.Admin.Controllers.Main;
 [Route("api/Admin/[controller]")]
 [ApiController]
 [Area("Admin")]
+
 public class CallCenterController : ControllerBase
 {
     private readonly ICallCenterService _service;
@@ -26,9 +27,9 @@ public class CallCenterController : ControllerBase
     [HttpPut("{id}")]
     [Authorize(Policy = "Admin")]
 
-    public async Task<IActionResult> Update(long id, UpdateCallCenterDto dto)
+    public async Task<IActionResult> UpdateAsync(long id, UpdateCallCenterDto dto)
     {
-        var res = await _service.Update(id, dto);
+        var res = await _service.UpdateAsync(id, dto);
         if (!res.Success)
             return BadRequest(res.Message);
 
@@ -44,9 +45,9 @@ public class CallCenterController : ControllerBase
     [HttpDelete("{id}")]
     [Authorize(Policy = "Admin")]
 
-    public async Task<IActionResult> Remove(long id)
+    public async Task<IActionResult> RemoveAsync(long id)
     {
-        var res = await _service.Remove(id);
+        var res = await _service.RemoveAsync(id);
         if (!res.Success)
             return BadRequest(res.Message);
 

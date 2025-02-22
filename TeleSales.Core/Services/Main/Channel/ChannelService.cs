@@ -19,7 +19,7 @@ namespace TeleSales.Core.Services.Main.Channel
 
         public async Task<BaseResponse<GetChannelDto>> Create(CreateChannelDto dto)
         {
-            var kanal = new Сhannels()
+            var kanal = new Channels()
             {
                 Name = dto.Name,
                 CreateAt = DateTime.UtcNow,

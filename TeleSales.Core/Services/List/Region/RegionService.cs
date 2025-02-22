@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeleSales.Core.Dto.List.Region;
 using TeleSales.Core.Interfaces.List.Region;
 using TeleSales.Core.Response;
 using TeleSales.DataProvider.Context;
@@ -13,35 +14,66 @@ public class RegionService : IRegionService
     {
         _db = db; 
     }
-    public async Task<BaseResponse<Regions>> CreateAsync(Regions model)
+    public async Task<BaseResponse<GetRegionDto>> CreateAsync(CreateRegionDto model)
     {
         var data = new Regions
         {
             Name = model.Name,
+            CityId = model.CityId,
         };
 
         await _db.Regions.AddAsync(data);
         await _db.SaveChangesAsync();
 
-        return new BaseResponse<Regions>(data, true);
+        var dtos = new GetRegionDto
+        {
+            Id = data.id,
+            Name = data.Name,
+            CityId = data.CityId,
+            IsDeleted = data.isDeleted,
+            CreateAt = data.CreateAt,
+        };
+
+        return new BaseResponse<GetRegionDto>(dtos, true);
     }
 
-    public async Task<BaseResponse<ICollection<Regions>>> GetAllAsync()
+    public async Task<BaseResponse<ICollection<GetRegionDto>>> GetAllAsync()
     {
         var data = await _db.Regions.Where(x => !x.isDeleted).ToListAsync();
 
-        return new BaseResponse<ICollection<Regions>>(data, true);
+        var dataDtos = data.Select(a => new GetRegionDto
+        {
+            Id = a.id,
+            Name = a.Name,
+            CityId=a.CityId,
+            IsDeleted = a.isDeleted,
+            CreateAt = a.CreateAt,
+        }).ToList();
+
+        return new BaseResponse<ICollection<GetRegionDto>>(dataDtos, true);
     }
 
-    public async Task<BaseResponse<Regions>> RemoveAsync(long id)
+    public async Task<BaseResponse<GetRegionDto>> RemoveAsync(long id)
     {
         var data = await _db.Regions.SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
+        
+        if (data == null)
+            return new BaseResponse<GetRegionDto>(null, false);
 
         data.isDeleted = true;
 
         _db.Regions.Update(data);
         await _db.SaveChangesAsync();
 
-        return new BaseResponse<Regions>(data, true);
+        var dtos = new GetRegionDto
+        {
+            Id = data.id,
+            Name = data.Name,
+            CityId = data.CityId,
+            IsDeleted = data.isDeleted,
+            CreateAt = data.CreateAt,
+        };
+
+        return new BaseResponse<GetRegionDto>(dtos, true);
     }
 }

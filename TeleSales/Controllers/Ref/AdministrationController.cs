@@ -5,6 +5,8 @@ namespace TeleSales.Controllers.Ref;
 
 [Route("api/[controller]")]
 [ApiController]
+
+
 public class AdministrationController : ControllerBase
 {
     private readonly IAdministrationService _service;

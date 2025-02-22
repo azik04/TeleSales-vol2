@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TeleSales.Core.Dto.List.Result;
 using TeleSales.Core.Interfaces.List.Result;
 
 namespace TeleSales.Areas.Admin.Controllers.List;
@@ -16,18 +17,8 @@ public class ResultController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var res = await _service.GetAllAsync();
-        if (res.Success)
-            return Ok(res);
-
-        return BadRequest(res);
-    }
-
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(DataProvider.Entities.List.Results dto)
+    public async Task<IActionResult> CreateAsync(CreateResultDto dto)
     {
         var res = await _service.CreateAsync(dto);
         if (res.Success)

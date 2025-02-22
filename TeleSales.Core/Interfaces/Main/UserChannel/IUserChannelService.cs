@@ -7,8 +7,8 @@ namespace TeleSales.Core.Interfaces.Main.UserChannel;
 
 public interface IUserChannelService
 {
-    Task<BaseResponse<GetUserChannelDto>> AddToChanelAsync(CreateUserChannelDto dto);
+    Task<BaseResponse<GetUserChannelDto>> AddToChannelAsync(CreateUserChannelDto dto);
     Task<BaseResponse<ICollection<GetChannelDto>>> GetAllByUserId(long userId);
-    Task<BaseResponse<ICollection<GetUserDto>>> GetAllByKanalId(long kanalId);
-    Task<BaseResponse<GetUserChannelDto>> RemoveUserKanalAsync(long userId, long kanalId);
+    Task<BaseResponse<ICollection<GetUserDto>>> GetAllByChannelId(long channelId);
+    Task<BaseResponse<GetUserChannelDto>> RemoveUserChannelAsync(long userId, long channelId);
 }

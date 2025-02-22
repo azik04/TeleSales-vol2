@@ -26,9 +26,9 @@ public class UserChannelController : ControllerBase
     /// <returns>Результат операции (успех или ошибка).</returns>
     [HttpPost]
     [Authorize(Policy = "Admin")]
-    public async Task<IActionResult> AddToChanelAsync(CreateUserChannelDto dto)
+    public async Task<IActionResult> AddToChannelAsync(CreateUserChannelDto dto)
     {
-        var data = await _service.AddToChanelAsync(dto);
+        var data = await _service.AddToChannelAsync(dto);
         if (data.Success)
             return Ok(data);
         return BadRequest();
@@ -40,11 +40,11 @@ public class UserChannelController : ControllerBase
     /// </summary>
     /// <param name="kanalId">ID канала.</param>
     /// <returns>Список пользователей в указанном канале.</returns>
-    [HttpGet("ByKanal")]
+    [HttpGet("ByChannal")]
     [Authorize(Policy = "Admin")]
-    public async Task<IActionResult> GetAllByKanalId(long kanalId)
+    public async Task<IActionResult> GetAllByChannelId(long channelId)
     {
-        var data = await _service.GetAllByKanalId(kanalId);
+        var data = await _service.GetAllByChannelId(channelId);
         if (data.Success)
             return Ok(data);
         return BadRequest();
@@ -59,9 +59,9 @@ public class UserChannelController : ControllerBase
     /// <returns>Результат операции (успех или ошибка).</returns>
     [HttpDelete]
     [Authorize(Policy = "Admin")]
-    public async Task<IActionResult> RemoveUserFromKanalAsync(long userId, long kanalId)
+    public async Task<IActionResult> RemoveUserFromChannelAsync(long userId, long channelId)
     {
-        var data = await _service.RemoveUserKanalAsync(userId, kanalId);
+        var data = await _service.RemoveUserChannelAsync(userId, channelId);
         if (data.Success)
             return Ok(data);
         return BadRequest();

@@ -9,7 +9,7 @@ public static class DatabaseServiceExtensions
     {
         var connection = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(connection, b => b.MigrationsAssembly("TeleSales")));
+            options.UseSqlServer(connection));
 
     }
 }

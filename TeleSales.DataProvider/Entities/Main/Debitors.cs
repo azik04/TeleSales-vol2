@@ -15,6 +15,24 @@ public class Debitors : Base
     public string Street { get; set; }
     public string Phone { get; set; }
     public bool isDone { get; set; }
+    public bool isExcluding { get; set; }
+
+
+    public long ChannelId { get; set; }
+    public virtual Channels Сhannel { get; set; }
+    public long StatusId { get; set; }
+    public Statuses Status { get; set; }
+    public long? ResultId { get; set; }
+    public Results? Result { get; set; }
+    public long? SubResultId { get; set; }
+    public Results? SubResult { get; set; }
+    public long? ExcludedBy { get; set; }
+    public virtual Users User { get; set; }
+    public string? Note { get; set; }
+    public DateTime? LastStatusUpdate { get; set; }
+    public DateTime? NextCall { get; set; }
+
+
 
 
     public decimal? TotalDebt { get; set; }
@@ -40,20 +58,5 @@ public class Debitors : Base
     public decimal? Month2_2025 { get; set; }
     public decimal? Month3_2025 { get; set; }
 
-    public long ChannelId { get; set; }
-    public virtual Сhannels Сhannel { get; set; }
-    public long StatusId { get; set; }
-    public Statuses Status { get; set; }
-
-
-
-
-    public bool isExcluding { get; set; }
-    public long? ResultId { get; set; }
-    public Results? Result { get; set; }
-    public long? ExcludedBy { get; set; }
-    public virtual Users User { get; set; }
-    public string? Note { get; set; }
-    public DateTime? LastStatusUpdate { get; set; }
-    public DateTime? NextCall { get; set; }
+    
 }

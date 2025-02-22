@@ -8,7 +8,8 @@ public class GetDebitorDto
     public long? ResultId { get; set; }
     public string? ResultName { get; set; }
     public long ChannelId { get; set; }
-
+    public long? SubResultId { get; set; }
+    public string? SubResultName { get; set; }
 
 
     public string LegalName { get; set; }
@@ -21,7 +22,7 @@ public class GetDebitorDto
     public string Street { get; set; }
     public string Phone { get; set; }
 
-    public bool isExcluding {  get; set; }
+    public bool isExcluding { get; set; }
     public bool isDone { get; set; }
     public string? Note { get; set; }
     public long? ExcludedBy { get; set; }

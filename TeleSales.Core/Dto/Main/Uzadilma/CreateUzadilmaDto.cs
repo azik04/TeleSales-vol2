@@ -4,7 +4,7 @@ public class CreateUzadilmaDto
 {
     public long DepartmentId { get; set; }
     public long RegionId { get; set; }
-
+    public long ChannelId { get; set; }
 
     public string Adress { get; set; }
     public long MuraciyetNomresi { get; set; }

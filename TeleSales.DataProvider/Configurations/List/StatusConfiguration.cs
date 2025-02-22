@@ -8,7 +8,7 @@ public class StatusConfiguration : IEntityTypeConfiguration<Statuses>
 {
     public void Configure(EntityTypeBuilder<Statuses> builder)
     {
-        builder.ToTable("List.CallStatus");
+        builder.ToTable("List.Statuses");
 
         builder.HasKey(x => x.id);
     }

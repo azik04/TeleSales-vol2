@@ -27,6 +27,8 @@ public class GetDebitorProfile : Profile
             .ForMember(dest => dest.Note, opt => opt.MapFrom(src => src.Note))
             .ForMember(dest => dest.ExcludedBy, opt => opt.MapFrom(src => src.ExcludedBy))
             .ForMember(dest => dest.ExcludedByName, opt => opt.MapFrom(src => src.User.FullName))
+            .ForMember(dest => dest.ResultId, opt => opt.MapFrom(src => src.ResultId))
+            .ForMember(dest => dest.ResultName, opt => opt.MapFrom(src => src.Result.Name))
             .ForMember(dest => dest.NextCall, opt => opt.MapFrom(src => src.NextCall.ToString()))
             .ForMember(dest => dest.LastStatusUpdate, opt => opt.MapFrom(src => src.LastStatusUpdate.ToString()))
             .ForMember(dest => dest.LastStatusUpdate, opt => opt.MapFrom(src => src.LastStatusUpdate))

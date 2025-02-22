@@ -5,6 +5,7 @@ namespace TeleSales.Controllers.Ref;
 
 [Route("api/[controller]")]
 [ApiController]
+
 public class DepartmentController : ControllerBase
 {
     private readonly IDepartmentService _service;

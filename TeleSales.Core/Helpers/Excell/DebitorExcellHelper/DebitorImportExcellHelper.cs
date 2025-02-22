@@ -13,13 +13,14 @@ public class DebitorImportExcellHelper
         _error = error;
     }
 
-    public async Task<BaseResponse<List<Debitors>>> ImportFromExcelAsync(Stream excelFileStream, long kanalId)
+    public async Task<FileResponse<List<Debitors>>> ImportFromExcelAsync(Stream excelFileStream, long kanalId)
     {
         try
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var callsList = new List<Debitors>();
             var errorRows = new List<List<object>>();
+            var invoiceNumbers = new HashSet<long>();
 
             using (var package = new ExcelPackage(excelFileStream))
             {
@@ -35,10 +36,25 @@ public class DebitorImportExcellHelper
 
                     try
                     {
+                        var invoiceNumber = TryParseLong(worksheet.Cells[row, 4].Text, row, errors);
+
+                        if (invoiceNumber == null)
+                        {
+                            errors.Add("Invoice number is required.");
+                        }
+                        else if (invoiceNumbers.Contains(invoiceNumber.Value))
+                        {
+                            errors.Add($"Duplicate invoice number: {invoiceNumber.Value}");
+                        }
+                        else
+                        {
+                            invoiceNumbers.Add(invoiceNumber.Value);
+                        }
+
                         var call = new Debitors
                         {
                             VOEN = worksheet.Cells[row, 3].Text,
-                            InvoiceNumber = (long)TryParseLong(worksheet.Cells[row, 4].Text, row, errors),
+                            InvoiceNumber = invoiceNumber ?? 0,
                             District = worksheet.Cells[row, 5].Text,
                             PermissionStartDate = ParseDateOnly(worksheet.Cells[row, 6].Text, row, errors),
                             PermissionEndDate = ParseDateOnly(worksheet.Cells[row, 7].Text, row, errors),
@@ -68,11 +84,15 @@ public class DebitorImportExcellHelper
                             Month1_2025 = TryParseDecimal(worksheet.Cells[row, 31].Text, row, errors),
                             Month2_2025 = TryParseDecimal(worksheet.Cells[row, 32].Text, row, errors),
                             Month3_2025 = TryParseDecimal(worksheet.Cells[row, 33].Text, row, errors),
+                            
                             ChannelId = kanalId,
                             StatusId = 1,
                         };
 
-                        callsList.Add(call);
+                        if (!errors.Any())
+                        {
+                            callsList.Add(call);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -91,19 +111,21 @@ public class DebitorImportExcellHelper
                 }
             }
 
+            byte[] errorFileBytes = null;
             if (errorRows.Any())
             {
-                byte[] errorFileBytes = _error.GenerateErrorExcelFile(errorRows);
-                return new BaseResponse<List<Debitors>>(null, false, "Some rows contain errors. See attached error file.");
+                errorFileBytes = _error.GenerateErrorExcelFile(errorRows);
             }
 
-            return new BaseResponse<List<Debitors>>(callsList, true, "Import successful.");
+            return new FileResponse<List<Debitors>>(callsList, true, "Import successful.", errorFileBytes);
         }
         catch (Exception ex)
         {
-            return new BaseResponse<List<Debitors>>(null, false, $"An error occurred during import: {ex.Message}");
+            return new FileResponse<List<Debitors>>(null, false, $"An error occurred during import: {ex.Message}");
         }
     }
+
+
 
     /// <summary>
     /// Parses a date string into DateOnly, handling errors.
@@ -139,11 +161,25 @@ public class DebitorImportExcellHelper
     /// </summary>
     private decimal? TryParseDecimal(string text, int row, List<string> errors)
     {
-        if (string.IsNullOrEmpty(text) || !decimal.TryParse(text, out var value))
+        if (text == "-" || text == "")
+            text = "0"; 
+
+        if (string.IsNullOrWhiteSpace(text))
         {
             errors.Add($"Invalid number format: {text}");
             return null;
         }
+
+        text = text.Replace("\u00A0", "");
+
+        if (!decimal.TryParse(text, NumberStyles.Any, new CultureInfo("fr-FR"), out var value)) 
+        {
+            errors.Add($"Invalid number format: {text}");
+            return null;
+        }
+
         return value;
     }
+
+
 }

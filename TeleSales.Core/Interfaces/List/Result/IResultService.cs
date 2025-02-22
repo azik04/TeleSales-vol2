@@ -1,12 +1,12 @@
-﻿using TeleSales.Core.Response;
-using TeleSales.DataProvider.Entities.List;
+﻿using TeleSales.Core.Dto.List.Result;
+using TeleSales.Core.Response;
 
 namespace TeleSales.Core.Interfaces.List.Result;
 
 public interface IResultService
 {
-    Task<BaseResponse<Results>> CreateAsync(Results dto);
-    Task<BaseResponse<ICollection<Results>>> GetAllAsync();
-    Task<BaseResponse<Results>> RemoveAsync(long id);
+    Task<BaseResponse<GetResultDto>> CreateAsync(CreateResultDto dto);
+    Task<BaseResponse<ICollection<GetResultDto>>> GetAllAsync();
+    Task<BaseResponse<GetResultDto>> RemoveAsync(long id);
 
 }

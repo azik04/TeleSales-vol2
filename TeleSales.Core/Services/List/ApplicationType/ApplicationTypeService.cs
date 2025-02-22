@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeleSales.Core.Dto.List.ApplicationType;
+using TeleSales.Core.Dto.List.Region;
 using TeleSales.Core.Interfaces.List.ApplicationType;
 using TeleSales.Core.Response;
 using TeleSales.DataProvider.Context;
@@ -14,7 +16,7 @@ public class ApplicationTypeService : IApplicationTypeService
         _db = db; 
     }
 
-    public async Task<BaseResponse<ApplicationTypes>> CreateAsync(ApplicationTypes model)
+    public async Task<BaseResponse<GetApplicationTypeDto>> CreateAsync(CreateApplicationTypeDto model)
     {
         var data = new ApplicationTypes
         {
@@ -24,25 +26,52 @@ public class ApplicationTypeService : IApplicationTypeService
         await _db.ApplicationTypes.AddAsync(data);
         await _db.SaveChangesAsync();
 
-        return new BaseResponse<ApplicationTypes>(data, true);
+        var dtos = new GetApplicationTypeDto
+        {
+            Id = data.id,
+            Name = data.Name,
+            IsDeleted = data.isDeleted,
+            CreateAt = data.CreateAt,
+        };
+
+        return new BaseResponse<GetApplicationTypeDto>(dtos, true);
     }
 
-    public async Task<BaseResponse<ICollection<ApplicationTypes>>> GetAllAsync()
+    public async Task<BaseResponse<ICollection<GetApplicationTypeDto>>> GetAllAsync()
     {
         var data = await _db.ApplicationTypes.Where(x => !x.isDeleted).ToListAsync();
 
-        return new BaseResponse<ICollection<ApplicationTypes>>(data, true );
+        var dataDtos = data.Select(a => new GetApplicationTypeDto
+        {
+            Id = a.id,
+            Name = a.Name,
+            IsDeleted = a.isDeleted,
+            CreateAt = a.CreateAt,
+        }).ToList();
+
+        return new BaseResponse<ICollection<GetApplicationTypeDto>>(dataDtos, true );
     }
 
-    public async Task<BaseResponse<ApplicationTypes>> RemoveAsync(long id)
+    public async Task<BaseResponse<GetApplicationTypeDto>> RemoveAsync(long id)
     {
         var data = await _db.ApplicationTypes.SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
+
+        if (data == null)
+            return new BaseResponse<GetApplicationTypeDto>(null, false);
 
         data.isDeleted = true;
         
         _db.ApplicationTypes.Update(data);
         await _db.SaveChangesAsync();
 
-        return new BaseResponse<ApplicationTypes>(data, true );
+        var dtos = new GetApplicationTypeDto
+        {
+            Id = data.id,
+            Name = data.Name,
+            IsDeleted = data.isDeleted,
+            CreateAt = data.CreateAt,
+        };
+
+        return new BaseResponse<GetApplicationTypeDto>(dtos, true );
     }
 }

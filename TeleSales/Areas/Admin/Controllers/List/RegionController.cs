@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TeleSales.Core.Dto.List.Region;
 using TeleSales.Core.Interfaces.List.Region;
-using TeleSales.DataProvider.Entities.List;
 
 namespace TeleSales.Areas.Admin.Controllers.List;
 
@@ -17,18 +17,9 @@ public class RegionController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var res = await _service.GetAllAsync();
-        if (res.Success)
-            return Ok(res);
-
-        return BadRequest(res);
-    }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(Regions dto)
+    public async Task<IActionResult> CreateAsync(CreateRegionDto dto)
     {
         var res = await _service.CreateAsync(dto);
         if (res.Success)

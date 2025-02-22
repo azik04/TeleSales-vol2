@@ -31,7 +31,7 @@ public class CallCenterExportExcellHelper
                 {
                     var call = callCenters[row];
 
-                    worksheet.Cells[row + 2, 1].Value = call.Сhannel?.Name;
+                    worksheet.Cells[row + 2, 1].Value = call.Channel?.Name;
                     worksheet.Cells[row + 2, 2].Value = call.CreateAt.ToString("g"); 
                     worksheet.Cells[row + 2, 3].Value = call.VOEN;
                     worksheet.Cells[row + 2, 4].Value = call.Region?.Name;
@@ -41,7 +41,7 @@ public class CallCenterExportExcellHelper
                     worksheet.Cells[row + 2, 8].Value = call.ApplicationType?.Name;
                     worksheet.Cells[row + 2, 9].Value = call.ShortContent;
                     worksheet.Cells[row + 2, 10].Value = call.DetailsContent;
-                    worksheet.Cells[row + 2, 11].Value = call.ForwardTo;
+                    worksheet.Cells[row + 2, 11].Value = call.EmployerId;
                     worksheet.Cells[row + 2, 12].Value = call.AdministrationId; 
                     worksheet.Cells[row + 2, 13].Value = call.Department?.Name;
                     worksheet.Cells[row + 2, 14].Value = call.Conclusion;

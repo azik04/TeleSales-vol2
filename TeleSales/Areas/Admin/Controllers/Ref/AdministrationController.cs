@@ -17,15 +17,6 @@ public class AdministrationController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var res = await _service.GetAllAsync();
-        if (res.Success)
-            return Ok(res);
-
-        return BadRequest(res);
-    }
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync(CreateAdministrationDto dto)

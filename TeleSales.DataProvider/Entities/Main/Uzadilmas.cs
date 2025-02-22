@@ -21,7 +21,7 @@ public class Uzadilmas : Base
 
 
     public long ChannelId { get; set; }
-    public Сhannels Сhannel { get; set; }
+    public Channels Сhannel { get; set; }
     public long DepartmentId { get; set; }
     public Departments Department { get; set; }
     public long RegionId { get; set; }

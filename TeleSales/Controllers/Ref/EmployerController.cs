@@ -5,6 +5,7 @@ namespace TeleSales.Controllers.Ref;
 
 [Route("api/[controller]")]
 [ApiController]
+
 public class EmployerController : ControllerBase
 {
     private readonly IEmployerService _service;
@@ -13,10 +14,10 @@ public class EmployerController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync(int pageNumber, int pageSize, long departmentId)
+    [HttpGet("ByDepartment")]
+    public async Task<IActionResult> GetAllAsync(long departmentId)
     {
-        var res = await _service.GetAllByDepartment(pageNumber, pageSize, departmentId);
+        var res = await _service.GetAllByDepartment(departmentId);
         if (res.Success)
             return Ok(res);
 

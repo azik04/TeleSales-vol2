@@ -22,7 +22,155 @@ namespace TeleSales.DataProvider.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CallCenters", b =>
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.ApplicationTypes", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("List.ApplicationTypes", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Cities", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("List.Cities", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Regions", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<long>("CityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("List.Regions", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Results", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("List.Results", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Statuses", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("List.Statuses", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.SubResults", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ResultId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("ResultId");
+
+                    b.ToTable("List.SubResults", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.CallCenters", b =>
                 {
                     b.Property<long>("id")
                         .ValueGeneratedOnAdd()
@@ -33,8 +181,14 @@ namespace TeleSales.DataProvider.Migrations
                     b.Property<string>("Addition")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ApplicationType")
-                        .HasColumnType("int");
+                    b.Property<long?>("AdministrationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ApplicationTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ChannelId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Conclusion")
                         .IsRequired()
@@ -43,18 +197,18 @@ namespace TeleSales.DataProvider.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Department")
-                        .HasColumnType("int");
+                    b.Property<long?>("DepartmentId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("DetailsContent")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("ExcludedBy")
+                    b.Property<long?>("EmployerId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("ForwardTo")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("ExcludedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -64,8 +218,8 @@ namespace TeleSales.DataProvider.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Region")
-                        .HasColumnType("int");
+                    b.Property<long?>("RegionId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ShortContent")
                         .IsRequired()
@@ -80,187 +234,26 @@ namespace TeleSales.DataProvider.Migrations
                     b.Property<bool>("isForwarding")
                         .HasColumnType("bit");
 
-                    b.Property<long>("kanalId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("id");
+
+                    b.HasIndex("AdministrationId");
+
+                    b.HasIndex("ApplicationTypeId");
+
+                    b.HasIndex("ChannelId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("EmployerId");
 
                     b.HasIndex("ExcludedBy");
 
-                    b.HasIndex("kanalId");
+                    b.HasIndex("RegionId");
 
-                    b.ToTable("CallCenters");
+                    b.ToTable("Main.CallCenters", (string)null);
                 });
 
-            modelBuilder.Entity("TeleSales.DataProvider.Entities.Calls", b =>
-                {
-                    b.Property<long>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
-
-                    b.Property<int?>("Conclusion")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("District")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("ExcludedBy")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("InvoiceNumber")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("KanalId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("LastStatusUpdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LegalName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Month10_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month11_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month12_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month1_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month1_2025")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month2_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month2_2025")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month3_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month3_2025")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month4_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month5_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month6_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month7_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month8_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Month9_2024")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("NextCall")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateOnly?>("PermissionEndDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("PermissionStartDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("TotalDebt")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("VOEN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Year2018")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Year2019")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Year2020")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Year2021")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Year2022")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Year2023")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isDone")
-                        .HasColumnType("bit");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("ExcludedBy");
-
-                    b.HasIndex("KanalId");
-
-                    b.ToTable("Calls");
-                });
-
-            modelBuilder.Entity("TeleSales.DataProvider.Entities.Kanals", b =>
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.Channels", b =>
                 {
                     b.Property<long>("id")
                         .ValueGeneratedOnAdd()
@@ -283,34 +276,197 @@ namespace TeleSales.DataProvider.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Kanals");
+                    b.ToTable("Main.Сhannels", (string)null);
                 });
 
-            modelBuilder.Entity("TeleSales.DataProvider.Entities.UserKanals", b =>
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.Debitors", b =>
                 {
-                    b.Property<long>("UserId")
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("KanalId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<long>("ChannelId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("ExcludedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("InvoiceNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("LastStatusUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LegalName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Month10_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month11_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month12_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month1_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month1_2025")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month2_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month2_2025")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month3_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month3_2025")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month4_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month5_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month6_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month7_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month8_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Month9_2024")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("NextCall")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("PermissionEndDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("PermissionStartDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("ResultId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("StatusId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("SubResultId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("TotalDebt")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("VOEN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Year2018")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Year2019")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Year2020")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Year2021")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Year2022")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Year2023")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isDone")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("isExcluding")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("ChannelId");
+
+                    b.HasIndex("ExcludedBy");
+
+                    b.HasIndex("ResultId");
+
+                    b.HasIndex("StatusId");
+
+                    b.HasIndex("SubResultId");
+
+                    b.ToTable("Main.Debitors", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.UserChannels", b =>
+                {
                     b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("isDeleted")
                         .HasColumnType("bit");
 
-                    b.HasKey("UserId", "KanalId");
+                    b.Property<long>("СhannelId")
+                        .HasColumnType("bigint");
 
-                    b.HasIndex("KanalId");
+                    b.HasKey("id");
 
-                    b.ToTable("UserKanals");
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("СhannelId");
+
+                    b.ToTable("Main.UserChannels", (string)null);
                 });
 
-            modelBuilder.Entity("TeleSales.DataProvider.Entities.Users", b =>
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.Users", b =>
                 {
                     b.Property<long>("id")
                         .ValueGeneratedOnAdd()
@@ -341,13 +497,13 @@ namespace TeleSales.DataProvider.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Main.Users", (string)null);
 
                     b.HasData(
                         new
                         {
                             id = 1L,
-                            CreateAt = new DateTime(2024, 12, 26, 13, 31, 7, 594, DateTimeKind.Local).AddTicks(615),
+                            CreateAt = new DateTime(2025, 2, 18, 15, 45, 7, 799, DateTimeKind.Local).AddTicks(1232),
                             Email = "admin@adra.gov.az",
                             FullName = "Admin",
                             Password = "Admin123",
@@ -356,76 +512,410 @@ namespace TeleSales.DataProvider.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CallCenters", b =>
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.Uzadilmas", b =>
                 {
-                    b.HasOne("TeleSales.DataProvider.Entities.Users", "Users")
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<string>("Adress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ChannelId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DasiyiziNovu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DaşıyıcıSayı")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("DepartmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("IcazeMuddeti")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("MuraciyetNomresi")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("MüraciətSayı")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("PermissionEndDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("PermissionStartDate")
+                        .HasColumnType("date");
+
+                    b.Property<long>("RegionId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("TəyinatVöen")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("VOEN")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Yayici")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Zona")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("ChannelId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("Main.Uzadilmas", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Rel.Administrations", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Rel.Administrations", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Rel.Departments", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<long>("AdministrationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("AdministrationId");
+
+                    b.ToTable("Rel.Departments", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Rel.Employers", b =>
+                {
+                    b.Property<long>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("DepartmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Rel.Employers", (string)null);
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Regions", b =>
+                {
+                    b.HasOne("TeleSales.DataProvider.Entities.List.Cities", "City")
+                        .WithMany("Regions")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.SubResults", b =>
+                {
+                    b.HasOne("TeleSales.DataProvider.Entities.List.Results", "Results")
+                        .WithMany("SubResults")
+                        .HasForeignKey("ResultId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Results");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.CallCenters", b =>
+                {
+                    b.HasOne("TeleSales.DataProvider.Entities.Rel.Administrations", "Administration")
+                        .WithMany()
+                        .HasForeignKey("AdministrationId");
+
+                    b.HasOne("TeleSales.DataProvider.Entities.List.ApplicationTypes", "ApplicationType")
+                        .WithMany("CallCenters")
+                        .HasForeignKey("ApplicationTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TeleSales.DataProvider.Entities.Main.Channels", "Channel")
+                        .WithMany("CallCenter")
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TeleSales.DataProvider.Entities.Rel.Departments", "Department")
+                        .WithMany("CallCenter")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TeleSales.DataProvider.Entities.Rel.Employers", "Employer")
+                        .WithMany()
+                        .HasForeignKey("EmployerId");
+
+                    b.HasOne("TeleSales.DataProvider.Entities.Main.Users", "User")
                         .WithMany("CallCenter")
                         .HasForeignKey("ExcludedBy")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TeleSales.DataProvider.Entities.Kanals", "Kanal")
-                        .WithMany()
-                        .HasForeignKey("kanalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Kanal");
-
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("TeleSales.DataProvider.Entities.Calls", b =>
-                {
-                    b.HasOne("TeleSales.DataProvider.Entities.Users", "User")
-                        .WithMany("Calls")
-                        .HasForeignKey("ExcludedBy")
+                    b.HasOne("TeleSales.DataProvider.Entities.List.Regions", "Region")
+                        .WithMany("CallCenters")
+                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TeleSales.DataProvider.Entities.Kanals", "Kanal")
-                        .WithMany("Calls")
-                        .HasForeignKey("KanalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Administration");
 
-                    b.Navigation("Kanal");
+                    b.Navigation("ApplicationType");
+
+                    b.Navigation("Channel");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Employer");
+
+                    b.Navigation("Region");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TeleSales.DataProvider.Entities.UserKanals", b =>
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.Debitors", b =>
                 {
-                    b.HasOne("TeleSales.DataProvider.Entities.Kanals", "Kanals")
-                        .WithMany("UserKanal")
-                        .HasForeignKey("KanalId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("TeleSales.DataProvider.Entities.Main.Channels", "Сhannel")
+                        .WithMany("Debitor")
+                        .HasForeignKey("ChannelId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TeleSales.DataProvider.Entities.Users", "Users")
-                        .WithMany("UserKanal")
+                    b.HasOne("TeleSales.DataProvider.Entities.Main.Users", "User")
+                        .WithMany("Debitor")
+                        .HasForeignKey("ExcludedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TeleSales.DataProvider.Entities.List.Results", "Result")
+                        .WithMany("Debitors")
+                        .HasForeignKey("ResultId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("TeleSales.DataProvider.Entities.List.Statuses", "Status")
+                        .WithMany("Debitors")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TeleSales.DataProvider.Entities.List.Results", "SubResult")
+                        .WithMany()
+                        .HasForeignKey("SubResultId");
+
+                    b.Navigation("Result");
+
+                    b.Navigation("Status");
+
+                    b.Navigation("SubResult");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Сhannel");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.UserChannels", b =>
+                {
+                    b.HasOne("TeleSales.DataProvider.Entities.Main.Users", "User")
+                        .WithMany("UserChannel")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TeleSales.DataProvider.Entities.Main.Channels", "Сhannel")
+                        .WithMany("UserChannel")
+                        .HasForeignKey("СhannelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("Сhannel");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.Uzadilmas", b =>
+                {
+                    b.HasOne("TeleSales.DataProvider.Entities.Main.Channels", "Сhannel")
+                        .WithMany("Uzadilma")
+                        .HasForeignKey("ChannelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Kanals");
+                    b.HasOne("TeleSales.DataProvider.Entities.Rel.Departments", "Department")
+                        .WithMany("Uzadilma")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("Users");
+                    b.HasOne("TeleSales.DataProvider.Entities.List.Regions", "Region")
+                        .WithMany("Uzadilmas")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Region");
+
+                    b.Navigation("Сhannel");
                 });
 
-            modelBuilder.Entity("TeleSales.DataProvider.Entities.Kanals", b =>
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Rel.Departments", b =>
                 {
-                    b.Navigation("Calls");
+                    b.HasOne("TeleSales.DataProvider.Entities.Rel.Administrations", "Administration")
+                        .WithMany("Department")
+                        .HasForeignKey("AdministrationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("UserKanal");
+                    b.Navigation("Administration");
                 });
 
-            modelBuilder.Entity("TeleSales.DataProvider.Entities.Users", b =>
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Rel.Employers", b =>
+                {
+                    b.HasOne("TeleSales.DataProvider.Entities.Rel.Departments", "Department")
+                        .WithMany("Employer")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.ApplicationTypes", b =>
+                {
+                    b.Navigation("CallCenters");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Cities", b =>
+                {
+                    b.Navigation("Regions");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Regions", b =>
+                {
+                    b.Navigation("CallCenters");
+
+                    b.Navigation("Uzadilmas");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Results", b =>
+                {
+                    b.Navigation("Debitors");
+
+                    b.Navigation("SubResults");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.List.Statuses", b =>
+                {
+                    b.Navigation("Debitors");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.Channels", b =>
                 {
                     b.Navigation("CallCenter");
 
-                    b.Navigation("Calls");
+                    b.Navigation("Debitor");
 
-                    b.Navigation("UserKanal");
+                    b.Navigation("UserChannel");
+
+                    b.Navigation("Uzadilma");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Main.Users", b =>
+                {
+                    b.Navigation("CallCenter");
+
+                    b.Navigation("Debitor");
+
+                    b.Navigation("UserChannel");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Rel.Administrations", b =>
+                {
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("TeleSales.DataProvider.Entities.Rel.Departments", b =>
+                {
+                    b.Navigation("CallCenter");
+
+                    b.Navigation("Employer");
+
+                    b.Navigation("Uzadilma");
                 });
 #pragma warning restore 612, 618
         }

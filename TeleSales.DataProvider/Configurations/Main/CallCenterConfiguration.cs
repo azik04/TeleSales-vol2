@@ -8,7 +8,7 @@ public class CallCenterConfiguration : IEntityTypeConfiguration<CallCenters>
 {
     public void Configure(EntityTypeBuilder<CallCenters> builder)
     {
-        builder.ToTable("Main.CallCenter");
+        builder.ToTable("Main.CallCenters");
 
         builder.HasKey(x => x.id);
 
@@ -17,9 +17,9 @@ public class CallCenterConfiguration : IEntityTypeConfiguration<CallCenters>
             .HasForeignKey(x => x.ExcludedBy)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(x => x.Сhannel)
+        builder.HasOne(x => x.Channel)
             .WithMany(x => x.CallCenter)
-            .HasForeignKey(x => x.СhannelId)
+            .HasForeignKey(x => x.ChannelId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.Region)

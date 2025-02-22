@@ -1,12 +1,12 @@
-﻿using TeleSales.Core.Response;
-using TeleSales.DataProvider.Entities.List;
+﻿using TeleSales.Core.Dto.List.Region;
+using TeleSales.Core.Response;
 
 namespace TeleSales.Core.Interfaces.List.Region;
 
 public interface IRegionService
 {
-    Task<BaseResponse<Regions>> CreateAsync(Regions dto);
-    Task<BaseResponse<ICollection<Regions>>> GetAllAsync();
-    Task<BaseResponse<Regions>> RemoveAsync(long id);
+    Task<BaseResponse<GetRegionDto>> CreateAsync(CreateRegionDto dto);
+    Task<BaseResponse<ICollection<GetRegionDto>>> GetAllAsync();
+    Task<BaseResponse<GetRegionDto>> RemoveAsync(long id);
 
 }

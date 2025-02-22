@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Channels;
 using TeleSales.DataProvider.Configurations.List;
 using TeleSales.DataProvider.Configurations.Main;
 using TeleSales.DataProvider.Configurations.Rel;
@@ -19,10 +20,13 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new CityConfiguration());
         modelBuilder.ApplyConfiguration(new ApplicationTypeConfiguration());
         modelBuilder.ApplyConfiguration(new RegionConfiguration());
         modelBuilder.ApplyConfiguration(new ResultConfiguration());
         modelBuilder.ApplyConfiguration(new StatusConfiguration());
+        modelBuilder.ApplyConfiguration(new SubResultConfiguration());
+
 
         modelBuilder.ApplyConfiguration(new CallCenterConfiguration());
         modelBuilder.ApplyConfiguration(new ChannelConfiguration());
@@ -42,10 +46,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<ApplicationTypes> ApplicationTypes { get; set; }
     public DbSet<Results> Results { get; set; }
     public DbSet<Statuses> Status { get; set; }
+    public DbSet<Cities> Cities { get; set; }
+
+    public DbSet<SubResults> SubResults { get; set; }
 
 
     public DbSet<CallCenters> CallCenters { get; set; }
-    public DbSet<Сhannels> Сhannels { get; set; }
+    public DbSet<Channels> Сhannels { get; set; }
     public DbSet<Debitors> Debitors { get; set; }
     public DbSet<UserChannels> UserChannels { get; set; }
     public DbSet<Users> Users { get; set; }

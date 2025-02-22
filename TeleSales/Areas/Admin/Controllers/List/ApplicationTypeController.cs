@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TeleSales.Core.Dto.List.ApplicationType;
 using TeleSales.Core.Interfaces.List.ApplicationType;
-using TeleSales.DataProvider.Entities.List;
 
 namespace TeleSales.Areas.Admin.Controllers.List;
 
 [Route("api/Admin/[controller]")]
 [ApiController]
 [Area("Admin")]
+
+
 
 
 public class ApplicationTypeController : ControllerBase
@@ -17,18 +19,9 @@ public class ApplicationTypeController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllAsync()
-    {
-        var res = await _service.GetAllAsync();
-        if (res.Success)
-            return Ok(res);
-
-        return BadRequest(res);
-    }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync(ApplicationTypes dto)
+    public async Task<IActionResult> CreateAsync(CreateApplicationTypeDto dto)
     {
         var res = await _service.CreateAsync(dto);
         if (res.Success)

@@ -19,14 +19,13 @@ public class UserChannelService : IUserChannelService
         _db = db;
     }
 
-    public async Task<BaseResponse<GetUserChannelDto>> AddToChanelAsync(CreateUserChannelDto dto)
+    public async Task<BaseResponse<GetUserChannelDto>> AddToChannelAsync(CreateUserChannelDto dto)
     {
         var kanal = await _db.Сhannels.SingleOrDefaultAsync(x => x.id == dto.ChannelId);
         var user = await _db.Users.SingleOrDefaultAsync(x => x.id == dto.UserId);
 
         if (user == null || kanal == null)
         {
-            Log.Information("User or Kanal not found. UserId: {UserId}, KanalId: {KanalId}", dto.UserId, dto.ChannelId);
             return new BaseResponse<GetUserChannelDto>(null, false, "User or Kanal not found.");
         }
 
@@ -50,11 +49,9 @@ public class UserChannelService : IUserChannelService
                     ChannelName = kanal.Name,
                 };
 
-                Log.Information("User successfully re-added to the channel. UserId: {UserId}, KanalId: {KanalId}", dto.UserId, dto.ChannelId);
                 return new BaseResponse<GetUserChannelDto>(restoredDto, true, "User successfully re-added to the channel.");
             }
 
-            Log.Information("User is already assigned to this channel. UserId: {UserId}, KanalId: {KanalId}", dto.UserId, dto.ChannelId);
             return new BaseResponse<GetUserChannelDto>(null, true, "User is already assigned to this channel.");
         }
 
@@ -76,20 +73,18 @@ public class UserChannelService : IUserChannelService
             ChannelName = kanal.Name,
         };
 
-        Log.Information("User successfully added to the channel. UserId: {UserId}, KanalId: {KanalId}", dto.UserId, dto.ChannelId);
         return new BaseResponse<GetUserChannelDto>(newDto, true, "User successfully added to the channel.");
     }
 
-    public async Task<BaseResponse<ICollection<GetUserDto>>> GetAllByKanalId(long kanalId)
+    public async Task<BaseResponse<ICollection<GetUserDto>>> GetAllByChannelId(long channelId)
     {
         var users = await _db.UserChannels
-            .Where(x => x.СhannelId == kanalId && !x.isDeleted)
+            .Where(x => x.СhannelId == channelId && !x.isDeleted)
             .Include(x => x.User)
             .ToListAsync();
 
         if (!users.Any())
         {
-            Log.Information("No data found for KanalId: {KanalId}", kanalId);
             return new BaseResponse<ICollection<GetUserDto>>(null, false, "Нет данных для данного KanalId.");
         }
 
@@ -103,7 +98,6 @@ public class UserChannelService : IUserChannelService
             isDeleted = user.isDeleted
         }).ToList();
 
-        Log.Information("Fetched users for KanalId: {KanalId}, UserCount: {UserCount}", kanalId, dto.Count);
         return new BaseResponse<ICollection<GetUserDto>>(dto, true, "");
     }
 
@@ -116,7 +110,6 @@ public class UserChannelService : IUserChannelService
 
         if (!kanals.Any())
         {
-            Log.Information("No data found for UserId: {UserId}", userId);
             return new BaseResponse<ICollection<GetChannelDto>>(null, false, "Нет данных для данного UserId.");
         }
 
@@ -129,17 +122,15 @@ public class UserChannelService : IUserChannelService
             isDeleted = kanal.Сhannel.isDeleted
         }).ToList();
 
-        Log.Information("Fetched kanals for UserId: {UserId}, KanalCount: {KanalCount}", userId, dto.Count);
         return new BaseResponse<ICollection<GetChannelDto>>(dto, true, "");
     }
 
-    public async Task<BaseResponse<GetUserChannelDto>> RemoveUserKanalAsync(long userId, long kanalId)
+    public async Task<BaseResponse<GetUserChannelDto>> RemoveUserChannelAsync(long userId, long channelId)
     {
-        var userKanal = await _db.UserChannels.SingleOrDefaultAsync(x => x.СhannelId == kanalId && x.UserId == userId && !x.isDeleted);
+        var userKanal = await _db.UserChannels.SingleOrDefaultAsync(x => x.СhannelId == channelId && x.UserId == userId && !x.isDeleted);
 
         if (userKanal == null)
         {
-            Log.Information("UserKanal not found. UserId: {UserId}, KanalId: {KanalId}", userId, kanalId);
             return new BaseResponse<GetUserChannelDto>(null, false, "");
         }
 
@@ -153,7 +144,6 @@ public class UserChannelService : IUserChannelService
             UserId = userKanal.UserId,
         };
 
-        Log.Information("User successfully removed from Kanal. UserId: {UserId}, KanalId: {KanalId}", userId, kanalId);
         return new BaseResponse<GetUserChannelDto>(dto, true, "");
     }
 }

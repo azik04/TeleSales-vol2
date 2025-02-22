@@ -11,5 +11,10 @@ public class RegionConfiguration : IEntityTypeConfiguration<Regions>
         builder.ToTable("List.Regions");
 
         builder.HasKey(x => x.id);
+
+        builder.HasOne(x => x.City)
+            .WithMany(x => x.Regions)
+            .HasForeignKey(x => x.CityId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

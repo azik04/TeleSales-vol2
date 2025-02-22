@@ -8,7 +8,7 @@ public class ResultConfiguration : IEntityTypeConfiguration<Results>
 {
     public void Configure(EntityTypeBuilder<Results> builder)
     {
-        builder.ToTable("List.CallResult");
+        builder.ToTable("List.Results");
 
         builder.HasKey(x => x.id);
     }

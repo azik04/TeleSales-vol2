@@ -7,6 +7,7 @@ namespace TeleSales.Controllers.Main;
 
 [Route("api/[controller]")]
 [ApiController]
+
 public class UserController : ControllerBase
 {
     private readonly IUserService _service;
@@ -23,7 +24,6 @@ public class UserController : ControllerBase
     /// <param name="id">The ID of the User</param>
     /// <returns>A response with the User data or an error message</returns>
     [HttpGet("{id}")]
-    [Authorize(Policy = "Operator")]
 
     public async Task<IActionResult> GetById(long id)
     {
