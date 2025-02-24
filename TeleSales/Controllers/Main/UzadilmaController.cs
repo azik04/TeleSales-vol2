@@ -26,5 +26,17 @@ namespace TeleSales.Controllers.Main
 
             return Ok(res);
         }
+
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(long id)
+        {
+            var res = await _service.GetById(id);
+            if (!res.Success)
+                return BadRequest(res.Message);
+
+            return Ok(res);
+        }
     }
 }

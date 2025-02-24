@@ -2,6 +2,7 @@
 
 public class GetUzadilmaDto
 {
+    public long id {  get; set; }
     public long ChannelId { get; set; }
     public long DepartmentId { get; set; }
     public string? DepartmentName { get; set; }
@@ -16,7 +17,7 @@ public class GetUzadilmaDto
     public string Yayici { get; set; }
     public long VOEN { get; set; }
     public string Zona { get; set; }
-    public string DasiyiziNovu { get; set; }
+    public string DasiyiciNovu { get; set; }
     public string IcazeMuddeti { get; set; }
     public string TəyinatVöen { get; set; }
     public string MüraciətSayı { get; set; }

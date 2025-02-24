@@ -1,4 +1,5 @@
 using TeleSales.Infrastructure;
+using TeleSales.Middleware;
 using TRAK.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +34,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowLocalhost");
+
+app.UseMiddleware<ExceptionHandlingMiddleware>(); 
 
 app.UseRouting();
 

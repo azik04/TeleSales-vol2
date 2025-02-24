@@ -33,8 +33,4 @@
     <ProjectReference Include="..\TeleSales.Mail\TeleSales.Mail.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validation\Main\Uzadilma\" />
-  </ItemGroup>
-
 </Project>

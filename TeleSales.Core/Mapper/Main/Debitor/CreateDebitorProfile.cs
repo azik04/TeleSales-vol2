@@ -41,8 +41,8 @@ public class CreateDebitorProfile : Profile
             .ForMember(dest => dest.Month12_2024, opt => opt.MapFrom(src => src.Month12_2024))
             .ForMember(dest => dest.Month1_2025, opt => opt.MapFrom(src => src.Month1_2025))
             .ForMember(dest => dest.Month2_2025, opt => opt.MapFrom(src => src.Month2_2025))
-            .ForMember(dest => dest.Month3_2025, opt => opt.MapFrom(src => src.Month3_2025));
-
+            .ForMember(dest => dest.Month3_2025, opt => opt.MapFrom(src => src.Month3_2025))
+            .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => DateTime.Now));
     }
 }
 

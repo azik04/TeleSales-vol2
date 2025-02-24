@@ -18,11 +18,13 @@ public class CreateUzadilmaProfile : Profile
             .ForMember(dest => dest.PermissionEndDate, opt => opt.MapFrom(src => src.PermissionEndDate))
             .ForMember(dest => dest.Yayici, opt => opt.MapFrom(src => src.Yayici))
             .ForMember(dest => dest.VOEN, opt => opt.MapFrom(src => src.VOEN))
+            .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => src.VOEN))
             .ForMember(dest => dest.Zona, opt => opt.MapFrom(src => src.Zona))
-            .ForMember(dest => dest.DasiyiziNovu, opt => opt.MapFrom(src => src.DasiyiziNovu))
+            .ForMember(dest => dest.DasiyiciNovu, opt => opt.MapFrom(src => src.DasiyiciNovu))
             .ForMember(dest => dest.IcazeMuddeti, opt => opt.MapFrom(src => src.IcazeMuddeti))
             .ForMember(dest => dest.TəyinatVöen, opt => opt.MapFrom(src => src.TəyinatVöen))
             .ForMember(dest => dest.MüraciətSayı, opt => opt.MapFrom(src => src.MüraciətSayı))
-            .ForMember(dest => dest.DaşıyıcıSayı, opt => opt.MapFrom(src => src.DaşıyıcıSayı));
+            .ForMember(dest => dest.DaşıyıcıSayı, opt => opt.MapFrom(src => src.DaşıyıcıSayı))
+            .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => DateTime.Now));
     }
 }

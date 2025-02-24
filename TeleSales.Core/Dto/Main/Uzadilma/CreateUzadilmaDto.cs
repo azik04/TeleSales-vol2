@@ -13,7 +13,7 @@ public class CreateUzadilmaDto
     public string Yayici { get; set; }
     public long VOEN { get; set; }
     public string Zona { get; set; }
-    public string DasiyiziNovu { get; set; }
+    public string DasiyiciNovu { get; set; }
     public string IcazeMuddeti { get; set; }
     public string TəyinatVöen { get; set; }
     public string MüraciətSayı { get; set; }

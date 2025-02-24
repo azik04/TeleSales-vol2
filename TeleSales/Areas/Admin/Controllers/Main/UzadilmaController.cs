@@ -5,8 +5,10 @@ using TeleSales.Core.Interfaces.Main.Uzadilma;
 
 namespace TeleSales.Areas.Admin.Controllers.Main;
 
-[Route("api/[controller]")]
+[Route("api/Admin/[controller]")]
 [ApiController]
+[Area("Admin")]
+
 public class UzadilmaController : ControllerBase
 {
     private readonly IUzadilmaService _service;

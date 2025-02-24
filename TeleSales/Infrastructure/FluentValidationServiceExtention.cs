@@ -11,6 +11,7 @@ using TeleSales.Core.Validation.Main.CallCenter;
 using TeleSales.Core.Validation.Main.Channel;
 using TeleSales.Core.Validation.Main.Debitor;
 using TeleSales.Core.Validation.Main.User;
+using TeleSales.Core.Validation.Main.Uzadilma;
 using TeleSales.Core.Validation.Rel.Administration;
 using TeleSales.Core.Validation.Rel.Employer;
 
@@ -42,6 +43,8 @@ public static class FluentValidationServiceExtention
         services.AddValidatorsFromAssemblyContaining<ChangePasswordDtoValidation>();
         services.AddValidatorsFromAssemblyContaining<CreateUserDtoValidation>();
         services.AddValidatorsFromAssemblyContaining<UpdateUserDtoValidation>();
+        services.AddValidatorsFromAssemblyContaining<CreateUzadilmaDtoValidation>();
+        services.AddValidatorsFromAssemblyContaining<UpdateUzadilmaDtoValidation>();
 
         services.AddValidatorsFromAssemblyContaining<CreateAdministrationDtoValidation>();
         services.AddValidatorsFromAssemblyContaining<CreateDebitorDtoValidation>();
