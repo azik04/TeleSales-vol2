@@ -20,12 +20,16 @@ public class UserService : IUserService
     }
     public async Task<BaseResponse<GetUserDto>> Create(CreateUserDto dto)
     {
-        var user = _mapper.Map<Users>(dto);
+        var user = await _db.Users.SingleOrDefaultAsync(x => x.Email == dto.Email);
+        if (user != null)
+            return new BaseResponse<GetUserDto>(null,false,"User already exists");
+        
+        var data = _mapper.Map<Users>(dto);
        
-        await _db.Users.AddAsync(user);
+        await _db.Users.AddAsync(data);
         await _db.SaveChangesAsync();
 
-        var center = _mapper.Map<GetUserDto>(dto);
+        var center = _mapper.Map<GetUserDto>(data);
 
         return new BaseResponse<GetUserDto>(center);
     }
@@ -112,7 +116,7 @@ public class UserService : IUserService
         if (user == null)
             return new BaseResponse<GetUserDto>("User not found");
 
-        var update = _mapper.Map<Users>(dto);
+        var update = _mapper.Map(dto, user);
 
         _db.Users.Update(user);
         await _db.SaveChangesAsync();
@@ -125,6 +129,9 @@ public class UserService : IUserService
 
     public async Task<BaseResponse<GetUserDto>> ChangePassword(long id, ChangePasswordDto dto)
     {
+        if (id == 0)
+            return new BaseResponse<GetUserDto>(null, false, "Id cant be 0.");
+
         var user = await _db.Users.SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
 
         if (user == null)

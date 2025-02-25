@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TeleSales.Core.Dto.Main.User;
 using TeleSales.DataProvider.Entities.Main;
+using TeleSales.DataProvider.Enums;
 
 namespace TeleSales.Core.Mapper.Main.User
 {
@@ -11,8 +12,8 @@ namespace TeleSales.Core.Mapper.Main.User
             CreateMap<CreateUserDto, Users>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.FirstName + " " + src.LastName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password));
-
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => Role.Operator));
         }
     }
 

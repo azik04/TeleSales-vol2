@@ -164,14 +164,11 @@ public class DebitorService : IDebitorService
     public async Task<BaseResponse<PagedResponse<GetDebitorDto>>> GetAllByUserAsync(long userId, long channelId, int pageNumber, int pageSize)
     {
         var calls = await _db.Debitors
-            .Where(x => x.ExcludedBy == userId && !x.isDeleted && x.ChannelId == channelId && !x.isDone)
+            .Where(x => x.ChannelId == channelId && !x.isDeleted && x.isDone & x.ExcludedBy == userId)
             .Include(x => x.Сhannel)
             .Include(x => x.Status)
             .Include(x => x.Result)
-            .Include(x => x.User)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+            .Include(x => x.User).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
         var totalCount = await _db.Debitors.CountAsync(x => x.ExcludedBy == userId && !x.isDeleted && x.ChannelId == channelId && !x.isDone);
 
@@ -194,7 +191,12 @@ public class DebitorService : IDebitorService
         if (id == 0)
             return new BaseResponse<GetDebitorDto>(null, false, "Id cant be 0.");
 
-        var call = await _db.Debitors.FirstOrDefaultAsync(x => x.id == id && !x.isDeleted );
+        var call = await _db.Debitors
+            .Include(x => x.Сhannel)
+            .Include(x => x.Status)
+            .Include(x => x.Result)
+            .Include(x => x.User)
+            .FirstOrDefaultAsync(x => x.id == id && !x.isDeleted);
 
         if (call == null)
             return new BaseResponse<GetDebitorDto>(null, false, "Call cant be NULL.");

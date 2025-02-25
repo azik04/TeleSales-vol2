@@ -7,7 +7,6 @@ namespace TeleSales.Controllers.Main;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Policy = "Viewer")]
 public class DebitorController : ControllerBase
 {
     private readonly IDebitorService _service;

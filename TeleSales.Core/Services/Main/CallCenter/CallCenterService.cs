@@ -119,7 +119,8 @@ public class CallCenterService : ICallCenterService
             .Include(x => x.Department)
             .Include(x => x.Region)
             .Include(x => x.ApplicationType)
-            .Include(x => x.User) 
+            .Include(x => x.User)
+            .Include(x => x.Employer)
             .SingleOrDefaultAsync(x => x.id == id && !x.isDeleted);
 
         if (data == null)
