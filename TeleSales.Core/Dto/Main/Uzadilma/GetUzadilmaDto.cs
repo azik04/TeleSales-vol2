@@ -5,9 +5,9 @@ public class GetUzadilmaDto
     public long id {  get; set; }
     public long ChannelId { get; set; }
     public long DepartmentId { get; set; }
-    public string? DepartmentName { get; set; }
+    public string DepartmentName { get; set; }
     public long RegionId { get; set; }
-    public string? RegionName { get; set; }
+    public string RegionName { get; set; }
 
 
     public string Adress { get; set; }

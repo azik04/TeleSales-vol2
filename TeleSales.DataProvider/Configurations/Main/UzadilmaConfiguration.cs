@@ -15,8 +15,8 @@ public class UzadilmaConfiguration : IEntityTypeConfiguration<Uzadilmas>
         builder.HasOne(x => x.Сhannel)
             .WithMany(x => x.Uzadilma)
             .HasForeignKey(x => x.ChannelId)
-            .OnDelete(DeleteBehavior.Cascade);
-        
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasOne(x => x.Region)
             .WithMany(x => x.Uzadilmas)
             .HasForeignKey(x => x.RegionId)

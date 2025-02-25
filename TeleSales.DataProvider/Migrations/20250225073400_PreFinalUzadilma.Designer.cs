@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeleSales.DataProvider.Context;
 
@@ -11,9 +12,11 @@ using TeleSales.DataProvider.Context;
 namespace TeleSales.DataProvider.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250225073400_PreFinalUzadilma")]
+    partial class PreFinalUzadilma
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -503,7 +506,7 @@ namespace TeleSales.DataProvider.Migrations
                         new
                         {
                             id = 1L,
-                            CreateAt = new DateTime(2025, 2, 25, 12, 22, 6, 693, DateTimeKind.Local).AddTicks(3274),
+                            CreateAt = new DateTime(2025, 2, 25, 11, 33, 56, 934, DateTimeKind.Local).AddTicks(3883),
                             Email = "admin@adra.gov.az",
                             FullName = "Admin",
                             Password = "Admin123",

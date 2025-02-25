@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using QuestPDF.Helpers;
-using System.Data.Entity;
-using System.Threading.Channels;
+using Microsoft.EntityFrameworkCore;
 using TeleSales.Core.Dto.Main.Uzadilma;
 using TeleSales.Core.Interfaces.Main.Uzadilma;
 using TeleSales.Core.Response;
 using TeleSales.DataProvider.Context;
 using TeleSales.DataProvider.Entities.Main;
-using TeleSales.DataProvider.Enums;
 
 namespace TeleSales.Core.Services.Main.Uzadilma;
 
@@ -42,20 +38,16 @@ public class UzadilmaService : IUzadilmaService
 
     public async Task<BaseResponse<PagedResponse<GetUzadilmaDto>>> GetAllByChannelAndUserAsync(int pageSize, int pageNumber, long channelId, long userId)
     {
-        var data = _db.Uzadilmas
-                     .Where(x => !x.isDeleted && x.ChannelId == channelId)
-                     .Include(x => x.Department)
-                     .Include(x => x.Region)
-                     .Include(x => x.Сhannel)
-                     .Skip((pageNumber - 1) * pageSize)
-                     .Take(pageSize)
-                     .ToList();
+        var data = await _db.Uzadilmas
+            .Where(x => !x.isDeleted && x.ChannelId == channelId)
+            .Include(x => x.Department)  
+            .Include(x => x.Region)
+            .Include(x => x.Сhannel)      
+            .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();  
 
-        var totalCount = _db.Uzadilmas
-             .Where(x => !x.isDeleted && x.ChannelId == channelId)
-             .Count();
+        var totalCount = await _db.Uzadilmas.Where(x => !x.isDeleted && x.ChannelId == channelId).CountAsync();
 
-        var dataDtos = _mapper.Map<List<GetUzadilmaDto>>(data);
+        var dataDtos = _mapper.Map<List<GetUzadilmaDto>>(data); 
 
         var pagedResult = new PagedResponse<GetUzadilmaDto>
         {
@@ -70,48 +62,47 @@ public class UzadilmaService : IUzadilmaService
 
     public async Task<BaseResponse<PagedResponse<GetUzadilmaDto>>> GetAllByChannelAsync(int pageSize, int pageNumber, long channelId)
     {
-            var data = _db.Uzadilmas
-          .Where(x => !x.isDeleted && x.ChannelId == channelId)
-          .Include(x => x.Department)
-          .Include(x => x.Region)
-          .Include(x => x.Сhannel)
-          .Skip((pageNumber - 1) * pageSize)
-          .Take(pageSize)
-          .ToList();
+        var data = await _db.Uzadilmas
+            .Where(x => !x.isDeleted && x.ChannelId == channelId)
+            .Include(x => x.Department)
+            .Include(x => x.Region)
+            .Include(x => x.Сhannel)
+            .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
-            var totalCount = _db.Uzadilmas
-                 .Where(x => !x.isDeleted && x.ChannelId == channelId)
-                 .Count();
+        var totalCount = await _db.Uzadilmas.Where(x => !x.isDeleted && x.ChannelId == channelId).CountAsync();
 
-            var dataDtos = _mapper.Map<List<GetUzadilmaDto>>(data);
+        var dataDtos = _mapper.Map<List<GetUzadilmaDto>>(data);
 
-            var pagedResult = new PagedResponse<GetUzadilmaDto>
-            {
-                CurrentPage = pageNumber,
-                Items = dataDtos,
-                PageSize = pageSize,
-                TotalCount = totalCount,
-            };
+        var pagedResult = new PagedResponse<GetUzadilmaDto>
+        {
+            CurrentPage = pageNumber,
+            Items = dataDtos,
+            PageSize = pageSize,
+            TotalCount = totalCount,
+        };
 
-            return new BaseResponse<PagedResponse<GetUzadilmaDto>>(pagedResult);
+        return new BaseResponse<PagedResponse<GetUzadilmaDto>>(pagedResult);
     }
 
     public async Task<BaseResponse<GetUzadilmaDto>> GetById(long id)
     {
-        var data =  _db.Uzadilmas
+        var uzadilma = await _db.Uzadilmas
             .Include(x => x.Department)
             .Include(x => x.Region)
             .Include(x => x.Сhannel)
-            .SingleOrDefault(x => !x.isDeleted && x.id == id);
+            .FirstOrDefaultAsync(x => x.id == id && !x.isDeleted);
 
-        var dataDtos = _mapper.Map<GetUzadilmaDto>(data);
+        if (uzadilma == null)
+            return new BaseResponse<GetUzadilmaDto>(null, false, "Call can't be NULL.");
 
-        return new BaseResponse<GetUzadilmaDto>(dataDtos);
+        var callDtos = _mapper.Map<GetUzadilmaDto>(uzadilma);
+
+        return new BaseResponse<GetUzadilmaDto>(callDtos);
     }
 
     public async Task<BaseResponse<GetUzadilmaDto>> RemoveAsync(long id)
     {
-        var data =  _db.Uzadilmas.SingleOrDefault(x => !x.isDeleted && x.id == id);
+        var data =  await _db.Uzadilmas.SingleOrDefaultAsync(x => !x.isDeleted && x.id == id);
         
         data.isDeleted = true;
         _db.Uzadilmas.Update(data);
