@@ -35,6 +35,7 @@ using TeleSales.Core.Services.Rel.Administration;
 using TeleSales.Core.Services.Rel.Department;
 using TeleSales.Core.Services.Rel.Employer;
 using TeleSales.Mail;
+using TeleSales.SMS;
 
 namespace TeleSales.Infrastructure;
 
@@ -49,6 +50,7 @@ public static class ServiceRegistrationExtensions
             sp.GetRequiredService<IOptions<SmtpSettings>>().Value);
 
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IMessageService, MessageSender>();
 
         //List
         services.AddScoped<IApplicationTypeService, ApplicationTypeService>();
